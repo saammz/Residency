@@ -19,7 +19,6 @@
   border-radius: 10px;
 }
 
-/* Define scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
