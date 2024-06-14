@@ -9,7 +9,7 @@ const Login = () => {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false); // State to manage loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,9 +19,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when form is submitted
+    setLoading(true);
     console.log(formData);
-    // Simulate API call delay
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
     // Assuming successful login, redirect to dashboard
     navigate("/dashboard");
@@ -67,9 +67,9 @@ const Login = () => {
           <button
             type="submit"
             className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2 relative"
-            disabled={loading} // Disable button when loading
+            disabled={loading}
           >
-            {loading && <div className="spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin">&#9696;</div>} {/* Spinner */}
+            {loading && <div className="spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin">&#9696;</div>}
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
