@@ -79,11 +79,13 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-full relative"
+            className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-5 px-4 rounded-full w-full relative"
             disabled={loading}
           >
-            {loading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
+            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            {loading && <Spinner />}
             {loading ? "" : "Login"}
+            </span>
           </button>
         </form>
         <p className="mt-3 text-center text-gray-600">

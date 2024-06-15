@@ -165,9 +165,15 @@ const SignUp = () => {
               className="input-field bg-white border-2 border-green-500 w-full py-2 px-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
-          <button type="submit" className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-full relative" disabled={loading}>
-            {loading && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
-            {loading ? "Signing Up..." : "Sign Up"}
+          <button
+            type="submit"
+            className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-5 px-4 rounded-full w-full relative"
+            disabled={loading}
+          >
+            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            {loading && <Spinner />}
+            {loading ? "" : "Sign In"}
+            </span>
           </button>
         </form>
         <p className="mt-3 text-center text-gray-600">Already have an account? <Link to={"/login"} className="text-green-500">Login Here</Link></p>
