@@ -15,20 +15,8 @@ const SignUp = () => {
     togglePasswordVisibility,
     toggleConfirmPasswordVisibility,
     loading,
-    setLoading
+    handleSubmit
   } = useSignupHook();
-
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    console.log(formData);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    navigate("/login");
-  };
-
 
   return (
     <div className="flex items-center justify-center h-full">
@@ -40,13 +28,13 @@ const SignUp = () => {
         </div>
         <form onSubmit={handleSubmit} className="mt-12">
           <div className="mb-4">
-            <label htmlFor="username" className="block text-left mb-1 pl-2 text-gray-600">Username</label>
+            <label htmlFor="username" className="block text-left mb-1 pl-2 text-gray-600">Email</label>
             <input
               type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
               onChange={handleChange}
               required
               className="input-field bg-white border-2 border-green-500 w-full py-2 px-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
