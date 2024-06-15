@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Add this import
+import { Link } from "react-router-dom";
 import map from '../../resources/enugu_map.png';
 
 const Dashboard = () => {
@@ -14,24 +14,32 @@ const Dashboard = () => {
               </Link>
             </div>
             <div className="text-left">
-              <h1 className="text-3xl  text-gray-400 sm-max:text-xl">Residency Card</h1>
+              <h1 className="text-3xl text-gray-400 sm-max:text-xl">Residency Card</h1>
               <p className="text-5xl text-gray-400 font-semibold sm-max:text-3xl">Dashboard</p>
             </div>
           </div>
 
-          <nav className=" sm-max:mt-5">
-            <ul className="flex flex-col items-end   sm-max:flex sm-max:items-start">
-              <li className="text-green-700"><Link to="/">Dashboard</Link></li>
-              <li className="text-green-700"><Link to="/">Apply for Card</Link></li>
-              <li className="text-green-700"><Link to="/">Track Application</Link></li>
-              <li className="text-green-700"><Link to="/">Card Status</Link></li>
+          <nav className="sm-max:mt-5">
+            <ul className="flex flex-col items-end gap-1 sm-max:flex sm-max:items-start">
+              <li className="text-green-700 transition duration-300 ease-in-out hover:font-semibold hover:text-green-900">
+                <Link to="/">Dashboard</Link>
+              </li>
+              <li className="text-green-700 transition duration-300 ease-in-out hover:font-semibold hover:text-green-900">
+                <Link to="/">Apply for Card</Link>
+              </li>
+              <li className="text-green-700 transition duration-300 ease-in-out hover:font-semibold hover:text-green-900">
+                <Link to="/">Track Application</Link>
+              </li>
+              <li className="text-green-700 transition duration-300 ease-in-out hover:font-semibold hover:text-green-900">
+                <Link to="/">Card Status</Link>
+              </li>
             </ul>
             <button
-            type="submit"
-            className="btn btn-primary animate-pulse bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-full mt-1"
-          >
-            Update Information
-          </button>
+              type="submit"
+              className="btn btn-primary animate-pulse bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-full mt-1 transition duration-300 ease-in-out"
+            >
+              Update Information
+            </button>
           </nav>
         </header>
       </div>
