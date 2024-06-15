@@ -9,15 +9,20 @@ const Login = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(formData);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     // Assuming successful login, redirect to dashboard
     navigate("/dashboard");
   };
@@ -61,9 +66,11 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-primary animate-pulse bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2"
+            className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2 relative"
+            disabled={loading}
           >
-            Login
+            {loading && <div className="spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin">&#9696;</div>}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="mt-3 text-center text-gray-600">
