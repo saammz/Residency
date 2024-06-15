@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import pana from '../../resources/pana.png'
 import map from '../../resources/enugu_map.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from '../../../firebase';
+import { setDoc, doc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import Spinner from '../Spinner/Spinner';
+import { toast } from 'react-toastify';
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
@@ -14,15 +19,56 @@ const SignUp = () => {
     nin: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Your API call to handle SignUp
-    console.log(formData);
+    setIsLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+    
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password,
+      );
+      const user = auth.currentUser;
+      console.log(user);
+      toast.success('Registration successful')
+      if(user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+          firstName: formData.firstName,
+          middleName: formData.middleName,
+          lastName: formData.lastName,
+          phoneNumber: formData.phoneNumber,
+          nin: formData.nin,
+        });
+      };
+    navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('Email is already in use');
+      } else {
+        toast.error(error.message);
+      }
+      
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -35,12 +81,12 @@ const SignUp = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-          <label htmlFor="password" className="block text-left mb-1 pl-6">Username</label>
+          <label htmlFor="password" className="block text-left mb-1 pl-6">Email</label>
             <input
               type="text"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
               onChange={handleChange}
               required
               className="input-field text-center bg-white border-[1px] border-green-500 w-full py-2 px-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
@@ -129,7 +175,7 @@ const SignUp = () => {
               className="input-field text-center bg-white border-[1px] border-green-500 w-full py-2 px-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
-          <button type="submit" className="btn btn-primary animate-pulse bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2">Sign Up</button>
+          <button type="submit" className="btn btn-primary animate-pulse bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2">{isLoading ? <Spinner /> : 'Sign up'}</button>
         </form>
         <p className="mt-3 text-center text-gray-600">Already have an account? <Link to={"/login"}>
         <span className="text-green-500">Login Here</span>

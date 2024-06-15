@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import pana from "../../resources/pana.png";
 import map from "../../resources/enugu_map.png";
 import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase";
+import { toast } from "react-toastify";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -20,11 +24,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(formData);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Assuming successful login, redirect to dashboard
-    navigate("/dashboard");
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password,
+      );
+      toast.success('User logged in successfully');
+      // navigate("/dashboard");
+      window.location.href = '/dashboard';
+    } catch (error) {
+      toast.error(error.message)
+      setLoading(false)
+    } finally {
+      setLoading(false)
+    }
+
   };
 
   return (
@@ -38,13 +54,13 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="password" className="block text-left mb-1 pl-6">
-              Username
+              Email
             </label>
             <input
               type="text"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
               onChange={handleChange}
               required
               className="input-field text-center bg-white border-[1px] border-green-500 w-full py-2 px-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
@@ -69,8 +85,7 @@ const Login = () => {
             className="btn btn-primary bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full w-1/2 relative"
             disabled={loading}
           >
-            {loading && <div className="spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin">&#9696;</div>}
-            {loading ? "Logging in..." : "Login"}
+            {loading ? <Spinner/> : "Login"}
           </button>
         </form>
         <p className="mt-3 text-center text-gray-600">
