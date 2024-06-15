@@ -26,7 +26,6 @@ const SignUp = () => {
     console.log(formData);
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Assuming successful login, redirect to Login
     navigate("/login");
   };
 
